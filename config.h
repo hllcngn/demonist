@@ -7,3 +7,7 @@
 #define K_DOWN		SDLK_s
 #define K_RIGHT		SDLK_d
 // ===
+
+// Other settings
+#define FPS	60
+// ===

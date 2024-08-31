@@ -1,7 +1,9 @@
 #ifndef DEMONIST_H
 #define DEMONIST_H
-#include "SDL2/SDL.h"
 #include "config.h"
+#include "SDL2/SDL.h"
+#include <time.h>
+#include <unistd.h>
 #define ASPECT_RATIO 4
 typedef struct{
 	int x,y;	}vect;

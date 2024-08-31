@@ -30,6 +30,7 @@ vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
 SDL_Texture *t_char, **t; load_sprites(rdr, &t_char, &t);
 
 //MAIN LOOP
+clock_t clk, clk_start = clock();
 SDL_Event* ev = malloc(sizeof(SDL_Event));
 int quit = 0;  while(!quit){
   //event handling
@@ -45,7 +46,10 @@ case SDL_KEYUP:  switch(ev->key.keysym.sym){
   //updating states
 player_movement(&keys, &plpos);
 draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
-}
+  //clock tic
+clk = clock()-clk_start;
+usleep((CLOCKS_PER_SEC/FPS-clk)*(1000000/CLOCKS_PER_SEC));
+clk_start = clock();}
 
 //freeing memory
 free(ev);

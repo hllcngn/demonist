@@ -12,8 +12,8 @@ OBJFOLDER	= obj/
 OBJ	= $(addprefix $(OBJFOLDER), $(SRCFILES:.c=.o))
 INCFOLDER	= .
 
-all: objfolder demonist
-objfolder:
+all: $(OBJFOLDER) demonist
+$(OBJFOLDER):
 	mkdir -p $(OBJFOLDER)
 demonist: $(OBJ)
 	$(CC) $^ -o $(NAME) -lSDL2 -L.

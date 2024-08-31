@@ -1,6 +1,5 @@
 demonist TODO
 . generic keydown/keyup Keys functions
-. lock to 30 FPS
 . only redraw if something has changed on the display
 
 TIME-TRACKING (nb of hours)
