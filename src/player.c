@@ -13,7 +13,7 @@ int step = 1.75*ASPECT_RATIO;
 if (keys->up){ //if there is a collidable at the head of the char
 	int collide = collision(zone, collidables,
 			(vect){plpos->x,
-			plpos->y -step});
+			plpos->y -step})
 		+ collision(zone, collidables,
 			(vect){plpos->x +12*ASPECT_RATIO-1,
 			plpos->y -step});
@@ -31,12 +31,17 @@ if (keys->up){ //if there is a collidable at the head of the char
 			if (diff < step){ plpos->y -=diff; *redraw = 1;}}}}
 	// we must do this in order to be able to walk behind walls
 
-if (keys->left){ plpos->x-=1.75*ASPECT_RATIO; *redraw=1; }
+if (keys->left){
+	int collide = collision(zone, collidables,
+			(vect){plpos->x -step, plpos->y +8*ASPECT_RATIO-1});
+	if (!collide){ plpos->x -=step; *redraw = 1; }
+	else { int diff = plpos->x%(12*ASPECT_RATIO);
+		if (diff < step){ plpos->x -=diff; *redraw = 1;}}}
 
 if (keys->down){//if there is a collidable at the feet of the char
 	int collide = collision(zone, collidables,
 			(vect){plpos->x,
-			plpos->y +24*ASPECT_RATIO +step});
+			plpos->y +24*ASPECT_RATIO +step})
 		+ collision(zone, collidables,
 			(vect){plpos->x +12*ASPECT_RATIO-1,
 			plpos->y +24*ASPECT_RATIO +step});
@@ -50,22 +55,14 @@ if (keys->down){//if there is a collidable at the feet of the char
 				(vect){plpos->x +12*ASPECT_RATIO-1,
 				plpos->y +8*ASPECT_RATIO +step});
 		if (!collide){ plpos->y += step;  *redraw = 1;}
-		else { int diff = (plpos->y +8*ASPECT_RATIO)%(24*ASPECT_RATIO);
+		else { int diff = 24*ASPECT_RATIO-(plpos->y +8*ASPECT_RATIO
+				-24*ASPECT_RATIO)%(24*ASPECT_RATIO);
 			if (diff < step){ plpos->y +=diff; *redraw = 1;}}}}
 	// we must do this in order to be able to walk behind walls
-	/*
-	vect tmp1; tmp1.x = plpos->x/12/ASPECT_RATIO;
-		   tmp1.y = (plpos->y + 24*ASPECT_RATIO - 16*ASPECT_RATIO
-			+ (int)(1.75*ASPECT_RATIO))/24/ASPECT_RATIO;
-	vect tmp2; tmp2.x = (plpos->x + 11*ASPECT_RATIO)/12/ASPECT_RATIO;
-		   tmp2.y = tmp1.y;
-	int collision = 0; for (int i =0; i <4; i++)
-		if (zone[tmp1.y][tmp1.x] == collidables[i]
-		 || zone[tmp2.y][tmp2.x] == collidables[i]){
-			collision = 1; break;}
-	if (!collision){ plpos->y+=1.75*ASPECT_RATIO; *redraw = 1;}
-	//else { int diff = 24 - (plpos->y + 24*ASPECT_RATIO
-	//		- 16*ASPECT_RATIO)%24;
-	//	if (diff){ plpos->y += diff; *redraw = 1;}}}
-	*/
-if (keys->right){ plpos->x+=1.75*ASPECT_RATIO; *redraw=1; }}
+if (keys->right){
+	int collide = collision(zone, collidables,
+			(vect){plpos->x +12*ASPECT_RATIO +step,
+			plpos->y +16*ASPECT_RATIO-1});
+	if (!collide){ plpos->x +=step; *redraw = 1; }
+	else { int diff = 12*ASPECT_RATIO -plpos->x%(12*ASPECT_RATIO);
+		if (diff < step){ plpos->x +=diff; *redraw = 1;}}}}
