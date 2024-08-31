@@ -1,8 +1,31 @@
-all:
-	gcc src/main.c src/draw.c src/logic.c src/ass.c src/player.c -I. -lSDL2 -L. -odemonist
+NAME	= demonist
+CC	= /usr/bin/gcc
+SRCFOLDER	= src/
+SRCFILES	= \
+		main.c \
+		ass.c \
+		draw.c \
+		logic.c \
+		player.c \
+
+OBJFOLDER	= obj/
+OBJ	= $(addprefix $(OBJFOLDER), $(SRCFILES:.c=.o))
+INCFOLDER	= .
+
+all: objfolder demonist
+objfolder:
+	mkdir -p $(OBJFOLDER)
+demonist: $(OBJ)
+	$(CC) $^ -o $(NAME) -lSDL2 -L.
+$(OBJFOLDER)%.o: $(SRCFOLDER)%.c
+	$(CC) -c $^ -o $@ -I$(INCFOLDER)
 hello:
-	gcc src/hello.c -I. -lSDL2 -L. -ohello
+	#this should create a black window
+	#that you can close by pressing ESC
+	$(CC) src/hello.c -I$(INCFOLDER) -lSDL2 -L. -ohello
 clean:
-	rm -f hello hello.exe demonist demonist.exe
-re: clean all
+	rm -rf $(OBJFOLDER)
+fclean: clean
+	rm -f hello hello.exe hello.stackdump hello.exe.stackdump demonist demonist.exe demonist.stackdump demonist.exe.stackdump
+re: fclean all
 .PHONY:	hello
