@@ -1,13 +1,13 @@
 #include "demonist.h"
 
-void movement_keydown(int sym, Keys* keys){
+void keydown(int sym, Keys* keys){
 switch(sym){
 case K_UP:     keys->up    =1;	break;
 case K_LEFT:   keys->left  =1;	break;
 case K_DOWN:   keys->down  =1;	break;
 case K_RIGHT:  keys->right =1;	break;}}
 
-void movement_keyup(int sym, Keys* keys){
+void keyup(int sym, Keys* keys){
 switch(sym){
 case K_UP:     keys->up    =0;	break;
 case K_LEFT:   keys->left  =0;	break;

@@ -32,6 +32,7 @@ SDL_Texture *t_char, **t; load_sprites(rdr, &t_char, &t);
 //MAIN LOOP
 clock_t clk, clk_start = clock();
 SDL_Event* ev = malloc(sizeof(SDL_Event));
+int redraw = 0; draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
 int quit = 0;  while(!quit){
   //event handling
 while(SDL_PollEvent(ev)){ switch(ev->type){
@@ -39,13 +40,13 @@ case SDL_QUIT:  quit++;  break;
 case SDL_KEYDOWN:  switch(ev->key.keysym.sym){
 	case K_QUIT:  quit++;  break;
 	default:
-		movement_keydown(ev->key.keysym.sym, &keys); break;} break;
+		keydown(ev->key.keysym.sym, &keys); break;} break;
 case SDL_KEYUP:  switch(ev->key.keysym.sym){
-	case K_UP: case K_LEFT: case K_DOWN: case K_RIGHT:
-		 movement_keyup(ev->key.keysym.sym, &keys); break;} break;}}
+	default:
+		keyup(ev->key.keysym.sym, &keys); break;} break;}}
   //updating states
-player_movement(&keys, &plpos);
-draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
+player_movement(&keys, &plpos, &redraw);
+if (redraw) draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
   //clock tic
 clk = clock()-clk_start;
 usleep((CLOCKS_PER_SEC/FPS-clk)*(1000000/CLOCKS_PER_SEC));
