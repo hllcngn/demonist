@@ -23,6 +23,7 @@ int zone1[7][17] =  {{5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,6},
 		{4,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,4},
 		{4,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,4},
 		{5,3,3,3,3,3,3,3,1,2,3,3,3,3,3,3,6}};
+int collidables[4] = {3,4,5,6};
 int zone_w = 17, zone_h = 7;
 vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
 
@@ -45,7 +46,7 @@ case SDL_KEYUP:  switch(ev->key.keysym.sym){
 	default:
 		keyup(ev->key.keysym.sym, &keys); break;} break;}}
   //updating states
-player_movement(&keys, &plpos, &redraw);
+player_movement(&keys, &plpos, zone1, collidables, &redraw);
 if (redraw) draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
   //clock tic
 clk = clock()-clk_start;

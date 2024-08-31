@@ -22,5 +22,6 @@ void keydown(int sym, Keys* keys);
 void keyup(int sym, Keys* keys);
 
 // player.c
-void player_movement(Keys* keys, vect* plpos, int* redraw);
+void player_movement(Keys* keys, vect* plpos, int zone[7][17],
+		int collidables[4], int* redraw);
 #endif
