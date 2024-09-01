@@ -5,8 +5,10 @@ SRCFILES	= \
 		main.c \
 		ass.c \
 		draw.c \
+		draw2.c \
 		logic.c \
 		player.c \
+		player2.c \
 
 OBJFOLDER	= obj/
 OBJ	= $(addprefix $(OBJFOLDER), $(SRCFILES:.c=.o))

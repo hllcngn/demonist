@@ -15,6 +15,9 @@ void load_sprites(SDL_Renderer* rdr, SDL_Texture** t_char, SDL_Texture*** t);
 void draw(SDL_Renderer* renderer, int win_h, int win_w,
 		vect plpos, SDL_Texture* t_char,
 		int zone[7][17], SDL_Texture** t);
+void draw2(SDL_Renderer* renderer, int win_h, int win_w,
+		vect plpos, SDL_Texture* t_char,
+		int zone[7][17], SDL_Texture** t);
 
 // logic.c
 typedef struct { int up,left,down,right; } Keys;
@@ -23,5 +26,7 @@ void keyup(int sym, Keys* keys);
 
 // player.c
 void player_movement(Keys* keys, vect* plpos, int zone[7][17],
-		int collidables[4], int* redraw);
+		int collidables[11], int ncoll, int* redraw);
+void player_movement2(Keys* keys, vect* plpos, int zone[7][17],
+		int coll[14][17], int* redraw);
 #endif
