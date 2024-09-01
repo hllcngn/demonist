@@ -1,7 +1,14 @@
 demonist TODO
 (nothing special)
 
+
 TIME-TRACKING (nb of hours)
 08/30/24 . 8
 08/31/24 . 7
 total --- 15
+
+
+- Architecture notes -
+Rooms should be at least 4 tiles high
+Small rooms should be 3 tiles high
+Cupboards and such should be 2 tiles high
