@@ -3,6 +3,7 @@
 #include "SDL2/SDL.h"
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "config.h"
 #define ASPECT_RATIO 4
