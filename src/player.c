@@ -1,13 +1,13 @@
 #include "demonist.h"
-int collision(int zone[7][17], int collidables[11], int ncoll, vect pos){
+int collision(ZONE* zone, int collidables[11], int ncoll, vect pos){
 for (int i =0; i <ncoll; i++)
-	if(zone[pos.y/24/ASPECT_RATIO]
-	       [pos.x/12/ASPECT_RATIO] == collidables[i]) return 1;
+	if(zone->m[pos.y/24/ASPECT_RATIO]
+		[pos.x/12/ASPECT_RATIO] == collidables[i]) return 1;
 return 0;}
 
 // TODO keep a list of obstacles in front of the char
 //      to then draw them on top of it
-void player_movement(Keys* keys, vect* plpos, int zone[7][17],
+void player_movement(Keys* keys, vect* plpos, ZONE* zone,
 		int collidables[11], int ncoll, int* redraw){
 int step = 1.75*ASPECT_RATIO;
 if (keys->up){ //if there is a collidable at the head of the char

@@ -16,18 +16,11 @@ SDL_Renderer* rdr = SDL_CreateRenderer(win, -1,
 //loading assets
 SDL_Texture *t_char, **t; load_sprites(rdr, &t_char, &t);
 
-int solution = ac >1? atoi(av[1]): 1;
 //internal variables
-//  first solution
 Keys keys =(Keys){0,0,0,0};
-int zone1[7][17] =  {{8,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,9},
-		{11,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,10},
-		{11,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,10},
-		{2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2},
-		{11,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,10},
-		{11,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,10},
-		{8,13,13,13,13,13,13,13,1,2,13,13,13,13,13,13,9}};
-int zone_w = 17, zone_h = 7;
+int solution = ac >1? atoi(av[1]): 1;
+ZONE* zone1 = get_zone1();
+//  first solution
 int collidables[11] = {3,4,5,6,7,8,9,10,11,12,13};
 int ncoll = 11;
 vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
@@ -74,7 +67,7 @@ if (solution == 1) player_movement(&keys, &plpos, zone1, collidables, ncoll, &re
 else if (solution == 2){
 //clk_move = clock()-clk_move_start;
 //if (clk_move > 0){
-	player_movement2(&keys, &plpos2, zone1, coll, &redraw);
+	player_movement2(&keys, &plpos2, coll, &redraw);
 	usleep(200000);
 	//clk_move_start = clock();}
 }
