@@ -35,7 +35,7 @@ for (int i =i1; i <i2; i++) for (int j =j1; j <j2; j++){
 	SDL_Rect draw_r = (SDL_Rect){j*12*ASPECT_RATIO-up_left.x,
 				     i*24*ASPECT_RATIO-up_left.y,
 				     12*ASPECT_RATIO,24*ASPECT_RATIO};
-	SDL_RenderCopy(rdr, t[zone->m[i][j]-1], NULL, &draw_r);}}
+	SDL_RenderCopy(rdr, t[zone->m[i][j]], NULL, &draw_r);}}
 
 void draw_character(SDL_Renderer* rdr, int win_w, int win_h,
 		vect plpos, SDL_Texture* t_char){

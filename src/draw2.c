@@ -19,7 +19,7 @@ if (corner.x+i>=0 && corner.y+j>=0 && corner.x+i<zone->w && corner.y+j<zone->h){
 		i*12*ASPECT_RATIO -offset.x,
 		j*24*ASPECT_RATIO -offset.y,
 		12*ASPECT_RATIO,24*ASPECT_RATIO };
-	SDL_RenderCopy(rdr, t[zone->m[corner.y+j][corner.x+i]-1], NULL, &draw_r);
+	SDL_RenderCopy(rdr, t[zone->m[corner.y+j][corner.x+i]], NULL, &draw_r);
 }}}
 // drawing char
 if (plpos2.y%2) offset.y -= 12*ASPECT_RATIO;
