@@ -26,6 +26,7 @@ int ncoll = 11;
 vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
 
 //  second solution
+/*
 int coll[14][17] = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -40,6 +41,8 @@ int coll[14][17] = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1}};
+*/
+int** coll1 = get_coll1();
 vect plpos2 = (vect){8, 9};
 //clock_t clk_move, clk_move_start; int umove = 1;
 
@@ -67,8 +70,8 @@ if (solution == 1) player_movement(&keys, &plpos, zone1, collidables, ncoll, &re
 else if (solution == 2){
 //clk_move = clock()-clk_move_start;
 //if (clk_move > 0){
-	player_movement2(&keys, &plpos2, coll, &redraw);
-	usleep(200000);
+	player_movement2(&keys, &plpos2, coll1, &redraw);
+	usleep(120000);
 	//clk_move_start = clock();}
 }
 

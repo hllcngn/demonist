@@ -1,12 +1,17 @@
 demonist TODO
-(nothing special)
+v fix collision array for solution 2
+. smooth camera movement (solution 3)
+. fix clock
 
 
 TIME-TRACKING (nb of hours)
 08/30/24 . 8
 08/31/24 . 7
 09/01/24 . 6.5
-total --- 21.5
+09/02/24 . 2.5
+09/05/24 . 2
+09/06/24 . 
+total ---- 26
 
 
 - Architecture notes -

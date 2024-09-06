@@ -13,6 +13,7 @@ typedef struct{ int x,y; }vect;
 // zone.c
 typedef struct{ int w,h,**m; }ZONE;
 ZONE* get_zone1(void);
+int** get_coll1(void); // for solution 2
 
 // ass.c
 void load_sprites(SDL_Renderer* rdr, SDL_Texture** t_char, SDL_Texture*** t);
@@ -34,5 +35,5 @@ void keyup(int sym, Keys* keys);
 void player_movement(Keys* keys, vect* plpos, ZONE* zone,
 		int collidables[11], int ncoll, int* redraw);
 void player_movement2(Keys* keys, vect* plpos,
-		int coll[14][17], int* redraw);
+		int** coll, int* redraw);
 #endif
