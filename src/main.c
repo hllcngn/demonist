@@ -18,42 +18,28 @@ SDL_Texture *t_char, **t; load_sprites(rdr, &t_char, &t);
 
 //internal variables
 Keys keys =(Keys){0,0,0,0};
-int solution = ac >1? atoi(av[1]): 1;
+int solution; if (ac <2) solution =1;
+else { solution = atoi(av[1]); if (solution >3) solution =1; }
 ZONE* zone1 = get_zone1();
 //  first solution
 int collidables[11] = {3,4,5,6,7,8,9,10,11,12,13};
 int ncoll = 11;
 vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
-
 //  second solution
-/*
-int coll[14][17] = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1}};
-*/
 int** coll1 = get_coll1();
 vect plpos2 = (vect){8, 9};
 //clock_t clk_move, clk_move_start; int umove = 1;
 
 //MAIN LOOP
-clock_t clk, clk_start = clock();
+struct timespec clk, clk_start;
+clock_gettime(CLOCK_REALTIME, &clk_start);
 //clk_move_start = clk_start;
 SDL_Event* ev = malloc(sizeof(SDL_Event));
+if (solution == 1)	draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
+else			draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
 int redraw = 0;
-if (solution == 1) draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
-else if (solution == 2) draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
 int quit = 0;  while(!quit){
+
   //event handling
 while(SDL_PollEvent(ev)){ switch(ev->type){
 case SDL_QUIT:  quit++;  break;
@@ -78,17 +64,26 @@ else if (solution == 2){
   //drawing
 if (redraw){
 	if (solution == 1) draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
-	else if (solution == 2) draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
-}
+	else if (solution == 2) draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);}
 
   //end of loop
-clk = clock()-clk_start;
-usleep((CLOCKS_PER_SEC/FPS-clk)*(1000000/CLOCKS_PER_SEC));
-clk_start = clock();}
+clock_gettime(CLOCK_REALTIME, &clk);
+time_t clkdiff = clk.tv_nsec - clk_start.tv_nsec;
+if (clkdiff < 0) clkdiff = 1000000000 - clk_start.tv_nsec + clk.tv_nsec;
+time_t framerate = CLOCKS_PER_SEC/FPS * (1000000/CLOCKS_PER_SEC);
+usleep(framerate - clkdiff/1000);
+clock_gettime(CLOCK_REALTIME, &clk_start);}
+
 //freeing memory
+// functional variables
 free(ev);
+// internal variables
+free_zone1(zone1);
+/*if (solution ==2)*/ free_coll1(coll1, 18);
+// assets
 SDL_DestroyTexture(t_char);
 for (int i =0; i <ncoll; i++) SDL_DestroyTexture(t[i]); free(t);
+// video
 SDL_DestroyRenderer(rdr);
 SDL_DestroyWindow(win);
 SDL_Quit();  return 0;}

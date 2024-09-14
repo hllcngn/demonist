@@ -15,7 +15,11 @@ zone->m[y] = malloc(zone->w*sizeof(int));
 fclose(f);
 return zone;}
 
-void free_zone1(ZONE* zone){}
+void free_zone1(ZONE* zone){
+for (int y =0; y <zone->h; y++)
+	free(zone->m[y]);
+free(zone);}
+
 
 int** get_coll1(void){
 FILE* f = fopen("src/zone1coll.txt", "r");
@@ -30,3 +34,8 @@ for (int y =0; y <h; y++){
 } fgetc(f); }
 fclose(f);
 return coll1;}
+
+void free_coll1(int** coll,int h){
+for (int y =0; y <h; y++)
+	free(coll[y]);
+free(coll);}

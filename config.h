@@ -9,5 +9,5 @@
 // ===
 
 // Other settings
-#define FPS		60
+#define FPS		40
 // ===
