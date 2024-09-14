@@ -35,7 +35,8 @@ void keyup(int sym, Keys* keys);
 
 // player.c
 void player_movement(Keys* keys, vect* plpos, ZONE* zone,
-		int collidables[11], int ncoll, int* redraw);
+		int collidables[11], int ncoll,
+		struct timespec* clk_move_start, int* redraw);
 void player_movement2(Keys* keys, vect* plpos,
 		int** coll, int* redraw);
 #endif

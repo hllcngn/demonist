@@ -28,7 +28,7 @@ vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
 //  second solution
 int** coll1 = get_coll1();
 vect plpos2 = (vect){8, 9};
-struct timespec clk_move, clk_move_start; time_t msmove = 120;
+struct timespec clk_move, clk_move_start;
 clock_gettime(CLOCK_REALTIME, &clk_move_start);
 
 //MAIN LOOP
@@ -53,13 +53,13 @@ case SDL_KEYUP:  switch(ev->key.keysym.sym){
 		keyup(ev->key.keysym.sym, &keys); break;} break;}}
 
   //updating states
-if (solution == 1) player_movement(&keys, &plpos, zone1, collidables, ncoll, &redraw);
+if (solution == 1) player_movement(&keys, &plpos, zone1, collidables, ncoll, &clk_move_start, &redraw);
 else if (solution == 2){
 clock_gettime(CLOCK_REALTIME, &clk_move);
 time_t clk_movediff = clk_move.tv_nsec - clk_move_start.tv_nsec;
 if (clk_movediff < 0)
 	clk_movediff = 1000000000 - clk_move_start.tv_nsec + clk_move.tv_nsec;
-if (clk_movediff > msmove*1000000){
+if (clk_movediff > MOV_2_MS*1000000){
 	player_movement2(&keys, &plpos2, coll1, &redraw);
 	clock_gettime(CLOCK_REALTIME, &clk_move_start);}}
 
@@ -72,7 +72,7 @@ if (redraw){
 clock_gettime(CLOCK_REALTIME, &clk);
 time_t clkdiff = clk.tv_nsec - clk_start.tv_nsec;
 if (clkdiff < 0) clkdiff = 1000000000 - clk_start.tv_nsec + clk.tv_nsec;
-time_t framerate = CLOCKS_PER_SEC/FPS * (1000000/CLOCKS_PER_SEC);
+time_t framerate = 1000000/FPS;
 usleep(framerate - clkdiff/1000);
 clock_gettime(CLOCK_REALTIME, &clk_start);}
 

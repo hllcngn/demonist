@@ -8,8 +8,14 @@ return 0;}
 // TODO keep a list of obstacles in front of the char
 //      to then draw them on top of it
 void player_movement(Keys* keys, vect* plpos, ZONE* zone,
-		int collidables[11], int ncoll, int* redraw){
-int step = 1.75*ASPECT_RATIO;
+		int collidables[11], int ncoll,
+		struct timespec* clk_move_start, int* redraw){
+//int step = 1.75*ASPECT_RATIO;
+struct timespec clk; clock_gettime(CLOCK_REALTIME, &clk);
+time_t clkdiff = clk.tv_nsec - clk_move_start->tv_nsec;
+if (clkdiff < 0) clkdiff = 1000000000 - clk_move_start->tv_nsec + clk.tv_nsec;
+int step = MOV_1_PX_S*ASPECT_RATIO*(clkdiff/1000000000.0);
+clock_gettime(CLOCK_REALTIME, clk_move_start);
 if (keys->up){ //if there is a collidable at the head of the char
 	int collide = collision(zone, collidables, ncoll,
 			(vect){plpos->x,

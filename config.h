@@ -10,4 +10,6 @@
 
 // Other settings
 #define FPS		40
+#define MOV_1_PX_S	(12*8)
+#define MOV_2_MS	120
 // ===
