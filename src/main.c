@@ -28,7 +28,8 @@ vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
 //  second solution
 int** coll1 = get_coll1();
 vect plpos2 = (vect){8, 9};
-//clock_t clk_move, clk_move_start; int umove = 1;
+struct timespec clk_move, clk_move_start; time_t msmove = 120;
+clock_gettime(CLOCK_REALTIME, &clk_move_start);
 
 //MAIN LOOP
 struct timespec clk, clk_start;
@@ -54,12 +55,13 @@ case SDL_KEYUP:  switch(ev->key.keysym.sym){
   //updating states
 if (solution == 1) player_movement(&keys, &plpos, zone1, collidables, ncoll, &redraw);
 else if (solution == 2){
-//clk_move = clock()-clk_move_start;
-//if (clk_move > 0){
+clock_gettime(CLOCK_REALTIME, &clk_move);
+time_t clk_movediff = clk_move.tv_nsec - clk_move_start.tv_nsec;
+if (clk_movediff < 0)
+	clk_movediff = 1000000000 - clk_move_start.tv_nsec + clk_move.tv_nsec;
+if (clk_movediff > msmove*1000000){
 	player_movement2(&keys, &plpos2, coll1, &redraw);
-	usleep(120000);
-	//clk_move_start = clock();}
-}
+	clock_gettime(CLOCK_REALTIME, &clk_move_start);}}
 
   //drawing
 if (redraw){
