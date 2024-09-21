@@ -26,6 +26,9 @@ void draw(SDL_Renderer* renderer, int win_h, int win_w,
 void draw2(SDL_Renderer* renderer, int win_h, int win_w,
 		vect plpos, SDL_Texture* t_char,
 		ZONE* zone, SDL_Texture** t);
+void draw3(SDL_Renderer* renderer, int win_h, int win_w,
+		vect plpos, int anim, vect movemet,
+		SDL_Texture* t_char, ZONE* zone, SDL_Texture** t);
 
 // logic.c
 typedef struct { int up,left,down,right; } Keys;
@@ -38,4 +41,6 @@ void player_movement(Keys* keys, vect* plpos, ZONE* zone,
 		struct timespec* clk_move_start, int* redraw);
 void player_movement2(Keys* keys, vect* plpos,
 		int** coll, int* redraw);
+int player_movement3(Keys* keys, vect* plpos,
+		int** coll, int* anim, vect* movement);
 #endif

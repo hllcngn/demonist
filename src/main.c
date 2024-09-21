@@ -30,6 +30,9 @@ int** coll1 = get_coll1();
 vect plpos2 = (vect){8, 9};
 struct timespec clk_move, clk_move_start;
 clock_gettime(CLOCK_REALTIME, &clk_move_start);
+// third solution
+int anim = 0;
+vect movement = (vect){0,0};
 
 //MAIN LOOP
 struct timespec clk, clk_start;
@@ -37,7 +40,9 @@ clock_gettime(CLOCK_REALTIME, &clk_start);
 //clk_move_start = clk_start;
 SDL_Event* ev = malloc(sizeof(SDL_Event));
 if (solution == 1)	draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
-else			draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
+else if (solution == 2)	draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
+else			draw3(rdr, win_w, win_h, plpos2, anim, movement,
+				t_char, zone1, t);
 int redraw = 0;
 int quit = 0;  while(!quit){
 
@@ -53,20 +58,29 @@ case SDL_KEYUP:  switch(ev->key.keysym.sym){
 		keyup(ev->key.keysym.sym, &keys); break;} break;}}
 
   //updating states
-if (solution == 1) player_movement(&keys, &plpos, zone1, collidables, ncoll, &clk_move_start, &redraw);
+if (solution == 1)
+	player_movement(&keys, &plpos, zone1, collidables, ncoll, &clk_move_start, &redraw);
 else if (solution == 2){
-clock_gettime(CLOCK_REALTIME, &clk_move);
-time_t clk_movediff = clk_move.tv_nsec - clk_move_start.tv_nsec;
-if (clk_movediff < 0)
-	clk_movediff = 1000000000 - clk_move_start.tv_nsec + clk_move.tv_nsec;
-if (clk_movediff > MOV_2_MS*1000000){
-	player_movement2(&keys, &plpos2, coll1, &redraw);
-	clock_gettime(CLOCK_REALTIME, &clk_move_start);}}
+	clock_gettime(CLOCK_REALTIME, &clk_move);
+	time_t clk_movediff = clk_move.tv_nsec - clk_move_start.tv_nsec;
+	if (clk_movediff < 0)
+		clk_movediff = 1000000000 - clk_move_start.tv_nsec + clk_move.tv_nsec;
+	if (clk_movediff > MOV_2_MS*1000000){
+		player_movement2(&keys, &plpos2, coll1, &redraw);
+		clock_gettime(CLOCK_REALTIME, &clk_move_start);}}
+else{
+	//solution 3
+}
 
   //drawing
-if (redraw){
-	if (solution == 1) draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
-	else if (solution == 2) draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);}
+if (redraw || anim){
+	if (solution == 1)
+		draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
+	else if (solution == 2)
+		draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
+	else
+		draw3(rdr, win_w, win_h, plpos2, anim, movement,
+			t_char, zone1, t);}
 
   //end of loop
 clock_gettime(CLOCK_REALTIME, &clk);
