@@ -3,7 +3,6 @@ CC	= /usr/bin/gcc
 SRCFOLDER	= src/
 SRCFILES	= \
 		main.c \
-		zone.c \
 		ass.c \
 		draw.c \
 		draw2.c \

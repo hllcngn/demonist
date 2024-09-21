@@ -10,15 +10,14 @@
 #define ASPECT_RATIO 4
 typedef struct{ int x,y; }vect;
 
-// zone.c
+// ass.c
+void load_sprites(SDL_Renderer* rdr, SDL_Texture** t_char, SDL_Texture*** t);
+
 typedef struct{ int w,h,**m; }ZONE;
 ZONE* get_zone1(void);
 void free_zone1(ZONE* zone);
 int** get_coll1(void); // for solution 2
 void free_coll1(int** coll,int h);
-
-// ass.c
-void load_sprites(SDL_Renderer* rdr, SDL_Texture** t_char, SDL_Texture*** t);
 
 // draw.c
 void draw(SDL_Renderer* renderer, int win_h, int win_w,
