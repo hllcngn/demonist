@@ -13,37 +13,37 @@ SDL_Window* win = SDL_CreateWindow("manor,",
 		SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
 SDL_Renderer* rdr = SDL_CreateRenderer(win, -1,
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-//loading assets
-SDL_Texture *t_char, **t; load_sprites(rdr, &t_char, &t);
 
 //internal variables
 Keys keys =(Keys){0,0,0,0};
 int solution; if (ac <2) solution =1;
 else { solution = atoi(av[1]); if (solution >3) solution =1; }
 ZONE* zone1 = get_zone1();
-//  first solution
+//  solution 1
 int collidables[11] = {3,4,5,6,7,8,9,10,11,12,13};
 int ncoll = 11;
 vect plpos = (vect){12*ASPECT_RATIO*8,24*ASPECT_RATIO*4};
-//  second solution
+//  solution 2
 int** coll1 = get_coll1();
 vect plpos2 = (vect){8, 9};
 struct timespec clk_move, clk_move_start;
 clock_gettime(CLOCK_REALTIME, &clk_move_start);
-// third solution
+// solution 3
 int anim = 0;
-vect movement = (vect){0,0};
+vectf movement = (vectf){0,0};
+//loading assets
+SDL_Texture *t_char, **t; load_sprites(rdr, &t_char, &t);
 
 //MAIN LOOP
-struct timespec clk, clk_start;
-clock_gettime(CLOCK_REALTIME, &clk_start);
-//clk_move_start = clk_start;
 SDL_Event* ev = malloc(sizeof(SDL_Event));
+int redraw = 0;
 if (solution == 1)	draw(rdr, win_w, win_h, plpos, t_char, zone1, t);
 else if (solution == 2)	draw2(rdr, win_w, win_h, plpos2, t_char, zone1, t);
 else			draw3(rdr, win_w, win_h, plpos2, anim, movement,
 				t_char, zone1, t);
-int redraw = 0;
+struct timespec clk, clk_start;
+clock_gettime(CLOCK_REALTIME, &clk_start);
+clk_move_start = clk_start; //solution 2
 int quit = 0;  while(!quit){
 
   //event handling
@@ -60,17 +60,19 @@ case SDL_KEYUP:  switch(ev->key.keysym.sym){
   //updating states
 if (solution == 1)
 	player_movement(&keys, &plpos, zone1, collidables, ncoll, &clk_move_start, &redraw);
-else if (solution == 2){
+else{ //solution 2 or 3
 	clock_gettime(CLOCK_REALTIME, &clk_move);
 	time_t clk_movediff = clk_move.tv_nsec - clk_move_start.tv_nsec;
 	if (clk_movediff < 0)
 		clk_movediff = 1000000000 - clk_move_start.tv_nsec + clk_move.tv_nsec;
 	if (clk_movediff > MOV_2_MS*1000000){
-		player_movement2(&keys, &plpos2, coll1, &redraw);
-		clock_gettime(CLOCK_REALTIME, &clk_move_start);}}
-else{
-	//solution 3
-}
+		if (solution == 2)
+			player_movement2(&keys, &plpos2, coll1, &redraw);
+		else	player_movement3(&keys, &plpos2, coll1, &anim,
+					&movement);}
+		clock_gettime(CLOCK_REALTIME, &clk_move_start);
+	if (solution == 3)
+		player_movement_increment(clk_movediff, anim, &movement);}
 
   //drawing
 if (redraw || anim){

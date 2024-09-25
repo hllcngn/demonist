@@ -1,6 +1,6 @@
 #ifndef DEMONIST_H
 #define DEMONIST_H
-#include "SDL2/SDL.h"
+#include "lib/SDL2/SDL.h"
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
@@ -9,6 +9,7 @@
 #include "config.h"
 #define ASPECT_RATIO 4
 typedef struct{ int x,y; }vect;
+typedef struct{ float x,y; }vectf;
 
 // ass.c
 void load_sprites(SDL_Renderer* rdr, SDL_Texture** t_char, SDL_Texture*** t);
@@ -24,10 +25,10 @@ void draw(SDL_Renderer* renderer, int win_h, int win_w,
 		vect plpos, SDL_Texture* t_char,
 		ZONE* zone, SDL_Texture** t);
 void draw2(SDL_Renderer* renderer, int win_h, int win_w,
-		vect plpos, SDL_Texture* t_char,
+		vect plpos2, SDL_Texture* t_char,
 		ZONE* zone, SDL_Texture** t);
 void draw3(SDL_Renderer* renderer, int win_h, int win_w,
-		vect plpos, int anim, vect movemet,
+		vect plpos2, int anim, vectf movement,
 		SDL_Texture* t_char, ZONE* zone, SDL_Texture** t);
 
 // logic.c
@@ -41,6 +42,8 @@ void player_movement(Keys* keys, vect* plpos, ZONE* zone,
 		struct timespec* clk_move_start, int* redraw);
 void player_movement2(Keys* keys, vect* plpos,
 		int** coll, int* redraw);
-int player_movement3(Keys* keys, vect* plpos,
-		int** coll, int* anim, vect* movement);
+void player_movement3(Keys* keys, vect* plpos,
+		int** coll, int* anim, vectf* movement);
+void player_movement_increment(time_t clk_movediff, int anim,
+			vectf* movement);
 #endif
